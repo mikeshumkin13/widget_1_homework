@@ -1,5 +1,7 @@
-import pytest
 from datetime import datetime
+
+import pytest
+
 from src.processing import filter_by_state, sort_by_date
 
 
@@ -12,6 +14,7 @@ def test_filter_by_state(sample_data):
     pending_operations = filter_by_state(sample_data, state="PENDING")
     assert len(pending_operations) == 1
     assert pending_operations[0]["state"] == "PENDING"
+
 
 # Тест функции sort_by_date
 def test_sort_by_date(sample_data):
