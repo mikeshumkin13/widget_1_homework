@@ -1,7 +1,7 @@
 import pytest
 
 
-from src.generators import filter_by_currency, transaction_descriptions
+from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
 
 
 
@@ -163,3 +163,31 @@ def test_transaction_descriptions_exhaustion():
         assert False, "Генератор должен был быть исчерпан"
     except StopIteration:
         pass
+
+
+def test_card_number_generator_basic():
+    result = list(card_number_generator(1, 5))
+    expected = [
+        "0000 0000 0000 0001",
+        "0000 0000 0000 0002",
+        "0000 0000 0000 0003",
+        "0000 0000 0000 0004",
+        "0000 0000 0000 0005",
+    ]
+    assert result == expected
+
+def test_card_number_generator_large_range():
+    result = list(card_number_generator(9999999999999995, 9999999999999999))
+    expected = [
+        "9999 9999 9999 9995",
+        "9999 9999 9999 9996",
+        "9999 9999 9999 9997",
+        "9999 9999 9999 9998",
+        "9999 9999 9999 9999",
+    ]
+    assert result == expected
+
+def test_card_number_generator_single_value():
+    result = list(card_number_generator(1234567890123456, 1234567890123456))
+    expected = ["1234 5678 9012 3456"]
+    assert result == expected

@@ -42,7 +42,37 @@ poetry install
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-Для установки зависимостей, выполните команду:
+# Модуль Generators
+
+## Обзор
+
+Этот модуль предоставляет различные генераторные функции для фильтрации и обработки данных транзакций, а также для генерации форматированных номеров карт.
+
+## Функции
+
+### `filter_by_currency`
+
+**Описание**: Возвращает итератор, который поочередно выдает транзакции, где валюта операции соответствует заданному коду валюты.
+
+**Использование**:
+```python
+transactions = [
+    {
+        "id": 1,
+        "operationAmount": {"amount": "100.00", "currency": {"code": "USD"}},
+        "description": "Транзакция 1"
+    },
+    {
+        "id": 2,
+        "operationAmount": {"amount": "200.00", "currency": {"code": "EUR"}},
+        "description": "Транзакция 2"
+    }
+]
+usd_transactions = filter_by_currency(transactions, "USD")
+for transaction in usd_transactions:
+    print(transaction)
+
+
 
 
 ## Документация:
