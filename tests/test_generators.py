@@ -1,61 +1,8 @@
 import pytest
-
-
 from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
 
-
-
-# Пример данных транзакций
-transactions = [
-    {
-        "id": 939719570,
-        "state": "EXECUTED",
-        "date": "2018-06-30T02:08:58.425572",
-        "operationAmount": {
-            "amount": "9824.07",
-            "currency": {
-                "name": "USD",
-                "code": "USD"
-            }
-        },
-        "description": "Перевод организации",
-        "from": "Счет 75106830613657916952",
-        "to": "Счет 11776614605963066702"
-    },
-    {
-        "id": 142264268,
-        "state": "EXECUTED",
-        "date": "2019-04-04T23:20:05.206878",
-        "operationAmount": {
-            "amount": "79114.93",
-            "currency": {
-                "name": "USD",
-                "code": "USD"
-            }
-        },
-        "description": "Перевод со счета на счет",
-        "from": "Счет 19708645243227258542",
-        "to": "Счет 75651667383060284188"
-    },
-    {
-        "id": 484579136,
-        "state": "EXECUTED",
-        "date": "2020-01-15T12:34:56.789123",
-        "operationAmount": {
-            "amount": "5000.00",
-            "currency": {
-                "name": "EUR",
-                "code": "EUR"
-            }
-        },
-        "description": "Оплата услуг",
-        "from": "Счет 12345678901234567890",
-        "to": "Счет 98765432109876543210"
-    }
-]
-
-
-def test_filter_by_currency_usd():
+# Тест с использованием фикстуры для данных транзакций
+def test_filter_by_currency_usd(transactions):
     usd_transactions = filter_by_currency(transactions, "USD")
     result = list(usd_transactions)
 
@@ -64,7 +11,7 @@ def test_filter_by_currency_usd():
     assert result[1]["operationAmount"]["currency"]["code"] == "USD"
 
 
-def test_filter_by_currency_eur():
+def test_filter_by_currency_eur(transactions):
     eur_transactions = filter_by_currency(transactions, "EUR")
     result = list(eur_transactions)
 
@@ -72,14 +19,14 @@ def test_filter_by_currency_eur():
     assert result[0]["operationAmount"]["currency"]["code"] == "EUR"
 
 
-def test_filter_by_currency_no_transactions():
+def test_filter_by_currency_no_transactions(transactions):
     jpy_transactions = filter_by_currency(transactions, "JPY")
     result = list(jpy_transactions)
 
     assert len(result) == 0
 
 
-def test_filter_by_currency_stop_iteration():
+def test_filter_by_currency_stop_iteration(transactions):
     usd_transactions = filter_by_currency(transactions, "USD")
     try:
         for _ in range(3):  # Попробуем получить 3 транзакции, хотя их всего 2
@@ -90,57 +37,8 @@ def test_filter_by_currency_stop_iteration():
         pytest.fail(f"Unexpected exception {e}")
 
 
-# Пример данных транзакций
-transactions = [
-    {
-        "id": 939719570,
-        "state": "EXECUTED",
-        "date": "2018-06-30T02:08:58.425572",
-        "operationAmount": {
-            "amount": "9824.07",
-            "currency": {
-                "name": "USD",
-                "code": "USD"
-            }
-        },
-        "description": "Перевод организации",
-        "from": "Счет 75106830613657916952",
-        "to": "Счет 11776614605963066702"
-    },
-    {
-        "id": 142264268,
-        "state": "EXECUTED",
-        "date": "2019-04-04T23:20:05.206878",
-        "operationAmount": {
-            "amount": "79114.93",
-            "currency": {
-                "name": "USD",
-                "code": "USD"
-            }
-        },
-        "description": "Перевод со счета на счет",
-        "from": "Счет 19708645243227258542",
-        "to": "Счет 75651667383060284188"
-    },
-    {
-        "id": 484579136,
-        "state": "EXECUTED",
-        "date": "2020-01-15T12:34:56.789123",
-        "operationAmount": {
-            "amount": "5000.00",
-            "currency": {
-                "name": "EUR",
-                "code": "EUR"
-            }
-        },
-        "description": "Оплата услуг",
-        "from": "Счет 12345678901234567890",
-        "to": "Счет 98765432109876543210"
-    }
-]
-
-
-def test_transaction_descriptions():
+# Тест с использованием фикстуры для данных транзакций
+def test_transaction_descriptions(transactions):
     descriptions = transaction_descriptions(transactions)
     result = list(descriptions)
 
@@ -150,7 +48,7 @@ def test_transaction_descriptions():
     assert result[2] == "Оплата услуг"
 
 
-def test_transaction_descriptions_exhaustion():
+def test_transaction_descriptions_exhaustion(transactions):
     descriptions = transaction_descriptions(transactions)
 
     assert next(descriptions) == "Перевод организации"
@@ -164,30 +62,24 @@ def test_transaction_descriptions_exhaustion():
     except StopIteration:
         pass
 
-
-def test_card_number_generator_basic():
-    result = list(card_number_generator(1, 5))
-    expected = [
+# Тест с параметризацией для генератора номеров карт
+@pytest.mark.parametrize("start, end, expected", [
+    (1, 5, [
         "0000 0000 0000 0001",
         "0000 0000 0000 0002",
         "0000 0000 0000 0003",
         "0000 0000 0000 0004",
         "0000 0000 0000 0005",
-    ]
-    assert result == expected
-
-def test_card_number_generator_large_range():
-    result = list(card_number_generator(9999999999999995, 9999999999999999))
-    expected = [
+    ]),
+    (9999999999999995, 9999999999999999, [
         "9999 9999 9999 9995",
         "9999 9999 9999 9996",
         "9999 9999 9999 9997",
         "9999 9999 9999 9998",
         "9999 9999 9999 9999",
-    ]
-    assert result == expected
-
-def test_card_number_generator_single_value():
-    result = list(card_number_generator(1234567890123456, 1234567890123456))
-    expected = ["1234 5678 9012 3456"]
+    ]),
+    (1234567890123456, 1234567890123456, ["1234 5678 9012 3456"]),
+])
+def test_card_number_generator_parametrized(start, end, expected):
+    result = list(card_number_generator(start, end))
     assert result == expected
