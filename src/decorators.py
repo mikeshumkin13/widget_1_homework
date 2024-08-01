@@ -3,6 +3,12 @@ import sys
 
 
 def log(filename: str = None):
+    """
+         Декоратор для логирования вызовов функции.
+         Если указан параметр filename, логи записываются в файл.
+         В противном случае, логи выводятся в консоль.
+         :param filename: Имя файла для логов (необязательный).
+         """
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
