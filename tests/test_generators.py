@@ -1,5 +1,7 @@
 import pytest
-from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
+
+from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
+
 
 # Тест с использованием фикстуры для данных транзакций
 def test_filter_by_currency_usd(transactions):
@@ -62,24 +64,36 @@ def test_transaction_descriptions_exhaustion(transactions):
     except StopIteration:
         pass
 
+
 # Тест с параметризацией для генератора номеров карт
-@pytest.mark.parametrize("start, end, expected", [
-    (1, 5, [
-        "0000 0000 0000 0001",
-        "0000 0000 0000 0002",
-        "0000 0000 0000 0003",
-        "0000 0000 0000 0004",
-        "0000 0000 0000 0005",
-    ]),
-    (9999999999999995, 9999999999999999, [
-        "9999 9999 9999 9995",
-        "9999 9999 9999 9996",
-        "9999 9999 9999 9997",
-        "9999 9999 9999 9998",
-        "9999 9999 9999 9999",
-    ]),
-    (1234567890123456, 1234567890123456, ["1234 5678 9012 3456"]),
-])
+@pytest.mark.parametrize(
+    "start, end, expected",
+    [
+        (
+            1,
+            5,
+            [
+                "0000 0000 0000 0001",
+                "0000 0000 0000 0002",
+                "0000 0000 0000 0003",
+                "0000 0000 0000 0004",
+                "0000 0000 0000 0005",
+            ],
+        ),
+        (
+            9999999999999995,
+            9999999999999999,
+            [
+                "9999 9999 9999 9995",
+                "9999 9999 9999 9996",
+                "9999 9999 9999 9997",
+                "9999 9999 9999 9998",
+                "9999 9999 9999 9999",
+            ],
+        ),
+        (1234567890123456, 1234567890123456, ["1234 5678 9012 3456"]),
+    ],
+)
 def test_card_number_generator_parametrized(start, end, expected):
     result = list(card_number_generator(start, end))
     assert result == expected
