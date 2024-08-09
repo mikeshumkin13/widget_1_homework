@@ -1,11 +1,10 @@
 import os
-
 import requests
 from dotenv import load_dotenv
+from typing import Dict, Any
 
 # Загрузка переменных окружения из .env файла
 load_dotenv()
-
 
 def get_exchange_rate(currency: str) -> float:
     """
@@ -22,23 +21,22 @@ def get_exchange_rate(currency: str) -> float:
     headers = {"apikey": api_key}
 
     response = requests.get(url, headers=headers)
-    data = response.json()
+    data: Dict[str, Any] = response.json()
 
-    if response.status_code != 200 or "RUB" not in data["rates"]:
+    if response.status_code != 200 or "RUB" not in data.get("rates", {}):
         raise ValueError("Invalid response from exchange rate API")
 
-    return data["rates"]["RUB"]
+    return float(data["rates"]["RUB"])
 
 
-
-def convert_to_rub(transaction: dict) -> float:
+def convert_to_rub(transaction: Dict[str, Any]) -> float:
     """
     Конвертирует сумму транзакции в рубли.
 
     :param transaction: Словарь с данными о транзакции.
     :return: Сумма транзакции в рублях.
     """
-    amount = transaction["amount"]
+    amount = float(transaction["amount"])
     currency = transaction.get("currency", "RUB")
 
     if currency != "RUB":
