@@ -1,18 +1,19 @@
 import json
-from typing import List, Dict
+from typing import Dict, List
 
-def load_transactions(file_path: str) -> List[Dict]:
+def load_operations(file_path: str = "data/operations.json") -> List[Dict]:
+    """
+    Загружает список транзакций из JSON-файла.
+
+    :param file_path: Путь к JSON-файлу. По умолчанию используется "data/operations.json".
+    :return: Список словарей с транзакциями, если файл существует и корректен, иначе пустой список.
+    """
     try:
-        with open(file_path, 'r', encoding='utf-8') as file:
+        with open(file_path, "r") as file:
             data = json.load(file)
-            if isinstance(data, list):  # Проверяем, что данные - это список
+            if isinstance(data, list):
                 return data
-            else:
-                return []
-    except (FileNotFoundError, json.JSONDecodeError):  # Обрабатываем ошибку, если файл не найден или пуст
+    except (FileNotFoundError, json.JSONDecodeError):
         return []
 
-# Пример использования функции
-if __name__ == "__main__":
-    transactions = load_transactions('data/operations.json')
-    print(transactions)
+    return []
