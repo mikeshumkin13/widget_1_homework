@@ -8,15 +8,21 @@ Widget_for_bank - Это виджет, который показывает не�
 
 ## Состав:
 * пакет SRC содержит следующие модули:
-    *mascs.py
-    *processing.py
-    *widget.py
-    *__init__.py
+    * mascs.py
+    * processing.py
+    * widget.py
+    * external_api.py 
+    * utils.py 
+    * generators.py 
+    * __init__.py
 * пакет tests содержит модули с тестами к пакету src:
-    *conftest.py
-    *test_masks.py
-    *test_processing.py
-    *test_widget.py
+    * conftest.py
+    * test_masks.py
+    * test_processing.py
+    * test_widget.py
+    * test_external_api.py
+    * test_generators.py
+    * test_utils.py
 
 ## Установка:
 
@@ -27,20 +33,49 @@ https://github.com/mikeshumkin13/widget_1_homework.git
 ## Установка зависимостей
 
 для корректной работы программы установите зависимости:
--python = "^3.12"
--flake8 = "^7.1.0"
--black = "^24.4.2"
--isort = "^5.13.2"
--mypy = "^1.10.0"
+-[tool.poetry]
+name = "widget-1"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+python-dotenv = "^1.0.1"
+requests = "^2.32.3"
+
+
+[tool.poetry.group.lint.dependencies]
+flake8 = "^7.1.0"
+black = "^24.4.2"
+isort = "^5.13.2"
+mypy = "^1.10.0"
+pytest = "^8.2.2"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^5.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 119
+
+[tool.isort]
+line_length = 119
+
+[tool.mypy]
+ignore_missing_imports = true
+disallow_untyped_defs = true
+warn_return_any = true
 
 установка:
 ```
 poetry install
 ```
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
 
 # Модуль Generators
 
@@ -74,7 +109,13 @@ for transaction in usd_transactions:
 
 
 
+# Модуль  external_api.py содержит функцию: def get_exchange_rate(currency: str) -> float:
+которая получает текущий курс валюты по отношению к рублю.
 
+# Модуль Utils.py содержит функцию: def load_operations(file_path: str = "data/operations.json") -> List[Dict]:
+ которая загружает список транзакций из JSON-файла.
+ 
+ 
 ## Информация о тестировании:
 для тестирования модулей содержащих функции, создан пакет "tests", который содержит модули с тестами.
 для запуска тестирования выполните команду pytest.
