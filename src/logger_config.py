@@ -1,20 +1,21 @@
 import logging
 import os
 
-# Создание папки logs, если она не существует
-os.makedirs('logs', exist_ok=True)
+log_directory = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'logs')
+os.makedirs(log_directory, exist_ok=True)
 
-# Настройка логгера
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+# Полный путь к файлу логов
+log_file_path = os.path.join(log_directory, 'project.log')
 
-# Создание обработчика для записи логов в файл
-file_handler = logging.FileHandler('logs/project.log')
-file_handler.setLevel(logging.DEBUG)
+# Настройка логирования
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(log_file_path, mode='w'),
+        logging.StreamHandler()  # Также выводим логи в консоль
+    ]
+)
 
-# Создание форматтера
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-file_handler.setFormatter(formatter)
-
-# Добавление обработчика к логгеру
-logger.addHandler(file_handler)
+# Создание логгера, который можно использовать в других модулях
+logger = logging.getLogger('widget_1')
