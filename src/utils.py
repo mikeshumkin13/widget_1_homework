@@ -4,8 +4,7 @@ from typing import Dict, List
 from src.logger_config import logger
 
 # Настройка логгера для модуля
-module_logger = logger.getChild('utils')
-
+module_logger = logger.getChild("utils")
 
 
 def load_operations(file_path: str = "data/operations.json") -> List[Dict]:

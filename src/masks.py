@@ -5,7 +5,8 @@ print("Начало выполнения masks.py")
 logger.debug("Тестовый лог: начало выполнения скрипта masks.py")
 
 # Настройка логгера для модуля
-module_logger = logger.getChild('masks')
+module_logger = logger.getChild("masks")
+
 
 def get_mask_card_number(card_number: str) -> str:
     """Функция, которая возвращает маску номера карты по правилу XXXX XX** **** XXXX"""
@@ -15,6 +16,7 @@ def get_mask_card_number(card_number: str) -> str:
     module_logger.info(f"Замаскированный номер карты: {masked_card}")
 
     return masked_card
+
 
 def get_mask_account(account_number: str) -> str:
     """Функция, которая возвращает маску номера счёта по правилу **XXXX"""
