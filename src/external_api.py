@@ -6,6 +6,7 @@ from typing import Dict, Any
 # Загрузка переменных окружения из .env файла
 load_dotenv()
 
+
 def get_exchange_rate(currency: str) -> float:
     """
     Получает текущий курс валюты по отношению к рублю.
