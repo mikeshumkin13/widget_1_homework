@@ -1,5 +1,6 @@
 import pytest
-from src.operations_filter import filter_operations_by_description
+from src.operations_filter import filter_operations_by_description, count_operations_by_category
+
 
 
 def test_filter_operations_by_description():
@@ -21,3 +22,23 @@ def test_filter_operations_by_description():
 
     result = filter_operations_by_description(operations, "страховка")
     assert len(result) == 0
+
+
+def test_count_operations_by_category():
+    operations = [
+        {"id": 1, "description": "Оплата услуг", "amount": 1000},
+        {"id": 2, "description": "Перевод на счет", "amount": 5000},
+        {"id": 3, "description": "Оплата мобильной связи", "amount": 200},
+        {"id": 4, "description": "Покупка продуктов", "amount": 1500},
+        {"id": 5, "description": "Покупка одежды", "amount": 2500},
+    ]
+
+    categories = ["оплата", "покупка", "перевод"]
+
+    result = count_operations_by_category(operations, categories)
+
+    assert result == {
+        "оплата": 2,
+        "покупка": 2,
+        "перевод": 1,
+    }

@@ -20,3 +20,24 @@ def filter_operations_by_description(operations: List[Dict[str, Any]], search_te
             filtered_operations.append(operation)
 
     return filtered_operations
+
+
+def count_operations_by_category(operations: List[Dict[str, Any]], categories: List[str]) -> Dict[str, int]:
+    """
+    Подсчитывает количество операций для каждой категории на основе описания.
+
+    :param operations: Список операций (словари).
+    :param categories: Список категорий для поиска в описаниях.
+    :return: Словарь, где ключ — категория, а значение — количество операций.
+    """
+    category_count = {category: 0 for category in categories}
+
+    for operation in operations:
+        description = operation.get("description", "").lower()
+
+        for category in categories:
+            if category.lower() in description:
+                category_count[category] += 1
+
+    return category_count
+
