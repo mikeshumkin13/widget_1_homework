@@ -1,5 +1,44 @@
 # Widget_for_bank
 
+# Banking Transactions Processor
+
+## Описание проекта
+
+Программа предназначена для работы с банковскими транзакциями, включая их загрузку, фильтрацию и сортировку. Поддерживаются форматы JSON, CSV и XLSX. Программа позволяет фильтровать транзакции по статусу, дате, валюте и описанию.
+
+## Функции программы
+
+- Загрузка транзакций из файлов форматов JSON, CSV, и XLSX.
+- Фильтрация транзакций по статусу (`EXECUTED`, `CANCELED`, `PENDING`).
+- Дополнительная фильтрация по описанию (по ключевым словам).
+- Сортировка транзакций по дате (по возрастанию или убыванию).
+- Возможность отображать только рублевые транзакции.
+
+## Установка
+
+1. Клонируйте репозиторий:
+
+    ```bash
+    git clone https://your-repo-url.git
+    ```
+
+2. Установите зависимости с помощью [Poetry](https://python-poetry.org/):
+
+    ```bash
+    cd widget_1
+    poetry install
+    ```
+
+3. Убедитесь, что необходимые файлы с транзакциями (`operations.json`, `transactions.csv`, `transactions_excel.xlsx`) находятся в папке `data`.
+
+## Запуск
+
+Для запуска программы выполните следующую команду:
+
+```bash
+poetry run python src/main.py
+
+
 ## Описание:
 
 Widget_for_bank - Это виджет, который показывает несколько последних
@@ -218,6 +257,79 @@ def get_mask_account(account_number: str) -> str:
 [tool.poetry.dependencies]
 pandas = "^1.5"
 
+##Структура проекта:
+
+.
+├── README.md
+├── data
+│   ├── operations.json
+│   ├── transactions.csv
+│   └── transactions_excel.xlsx
+├── htmlcov
+│   ├── class_index.html
+│   ├── coverage_html_cb_6fb7b396.js
+│   ├── favicon_32_cb_58284776.png
+│   ├── function_index.html
+│   ├── index.html
+│   ├── keybd_closed_cb_ce680311.png
+│   ├── status.json
+│   ├── style_cb_8e611ae1.css
+│   ├── z_145eef247bfb46b6___init___py.html
+│   ├── z_145eef247bfb46b6_masks_py.html
+│   ├── z_145eef247bfb46b6_processing_py.html
+│   └── z_145eef247bfb46b6_widget_py.html
+├── logs
+│   └── project.log
+├── poetry.lock
+├── pyproject.toml
+├── src
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-312.pyc
+│   │   ├── decorators.cpython-312.pyc
+│   │   ├── external_api.cpython-312.pyc
+│   │   ├── file_reader.cpython-312.pyc
+│   │   ├── generators.cpython-312.pyc
+│   │   ├── logger_config.cpython-312.pyc
+│   │   ├── masks.cpython-312.pyc
+│   │   ├── operations_filter.cpython-312.pyc
+│   │   ├── processing.cpython-312.pyc
+│   │   ├── utils.cpython-312.pyc
+│   │   └── widget.cpython-312.pyc
+│   ├── external_api.py
+│   ├── file_reader.py
+│   ├── generators.py
+│   ├── logger_config.py
+│   ├── main.py
+│   ├── masks.py
+│   ├── operations_filter.py
+│   ├── processing.py
+│   ├── utils.py
+│   └── widget.py
+└── tests
+    ├── __init__.py
+    ├── __pycache__
+    │   ├── __init__.cpython-312.pyc
+    │   ├── conftest.cpython-312-pytest-8.2.2.pyc
+    │   ├── test_decorators.cpython-312-pytest-8.2.2.pyc
+    │   ├── test_external_api.cpython-312-pytest-8.2.2.pyc
+    │   ├── test_external_api.cpython-312.pyc
+    │   ├── test_file_reader.cpython-312-pytest-8.2.2.pyc
+    │   ├── test_generators.cpython-312-pytest-8.2.2.pyc
+    │   ├── test_masks.cpython-312-pytest-8.2.2.pyc
+    │   ├── test_operations_filter.cpython-312-pytest-8.2.2.pyc
+    │   ├── test_processing.cpython-312-pytest-8.2.2.pyc
+    │   ├── test_utils.cpython-312-pytest-8.2.2.pyc
+    │   └── test_widget.cpython-312-pytest-8.2.2.pyc
+    ├── conftest.py
+    ├── test_external_api.py
+    ├── test_file_reader.py
+    ├── test_generators.py
+    ├── test_masks.py
+    ├── test_operations_filter.py
+    ├── test_processing.py
+    ├── test_utils.py
+    └── test_widget.py
 
 
 ## Документация:
